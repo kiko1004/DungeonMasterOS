@@ -1,12 +1,15 @@
-from gpt_2 import initialize
 import os
-from character import Character, NullCharacter
+
+from game_engine.gpt_2 import initialize
+from game_engine.character import Character, NullCharacter
 
 
 class StoryRunner:
 
-    def __init__(self, character = None):
+    def __init__(self, adventure, mode, character):
         self.model = initialize()
+        self.mode = mode
+        self.adventure = adventure
         if character:
             self.character = character
         else:
@@ -49,16 +52,15 @@ class StoryRunner:
 
                 story.write(continuation)
 
-
     def new(self):
-        adventure_name = input('Please name your adventure:')
+        adventure_name = self.adventure
         starting_prompt = input('Please enter your starting prompt:')
         with open(f'adventures/{adventure_name}', 'w') as story:
             story.write(starting_prompt)
         self.load(adventure_name)
 
-
-
-
-
-
+    def run(self):
+        if self.mode == 'new':
+            self.new()
+        else:
+            self.load(self.adventure)
