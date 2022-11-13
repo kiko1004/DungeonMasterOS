@@ -16,7 +16,7 @@ class StoryRunner:
             self.character = NullCharacter()
 
     def load(self, adventure_name):
-        adventure_name = f'adventures/{adventure_name}'
+        adventure_name = f'adventures/{adventure_name}.txt'
         with open(adventure_name, 'r') as story:
             starting_prompt = story.read()
 
@@ -24,7 +24,7 @@ class StoryRunner:
             prompt = starting_prompt
             while True:
                 max_length = len(prompt.split(' ')) + 70
-                res = self.model(prompt, max_length=max_length, num_return_sequences=3)
+                res = self.model(prompt, num_return_sequences=3, max_new_tokens=20)
                 output = [
                     res[0]['generated_text'][len(prompt):],
                     res[1]['generated_text'][len(prompt):],
@@ -55,7 +55,7 @@ class StoryRunner:
     def new(self):
         adventure_name = self.adventure
         starting_prompt = input('Please enter your starting prompt:')
-        with open(f'adventures/{adventure_name}', 'w') as story:
+        with open(f'adventures/{adventure_name}.txt', 'w') as story:
             story.write(starting_prompt)
         self.load(adventure_name)
 

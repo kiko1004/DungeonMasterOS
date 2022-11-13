@@ -7,7 +7,7 @@ def initialize():
     if not os.path.exists('adventures'):
         print('Adventures folder does not exist, creating ...')
         os.makedirs('adventures')
-    if input('Would you like to enter your character from DnDBeyond? y/n') == 'y':
+    if input('Would you like to enter your character from DnDBeyond? y/n ') == 'y':
         while True:
             # try:
             char_number = input('Please enter character number: ')
@@ -32,9 +32,9 @@ def choose_adventure():
         elif choice.lower() == 'l':
             onlyfiles = [f for f in os.listdir('adventures') if os.path.isfile(os.path.join('adventures', f))]
             for file in onlyfiles:
-                print(file)
+                print(file.replace('.txt', ''))
             adventure_name = input('Please enter adventure name from the list above: ')
-            if adventure_name not in onlyfiles:
+            if (adventure_name not in onlyfiles) and (adventure_name + '.txt' not in onlyfiles):
                 print("Please enter a valid input!")
             else:
                 return adventure_name, 'load'
